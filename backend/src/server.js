@@ -33,7 +33,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 module.exports = { io }; // Export the `io` object
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:19006' }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
@@ -53,6 +53,7 @@ server.listen(3000, () => console.log('Server is running on port 3000'));
 cron.schedule('* * * * *', async () => {
   try {
     // Query the queue collection to fetch available players
+    console.log('schedule');
     await pairPlayersAndCreateGames(io);
   } catch (error) {
     console.error('Error in matchmaking task:', error);
